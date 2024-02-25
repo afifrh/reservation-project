@@ -21,8 +21,9 @@ database.once('connected', () => {
 // routes 
 const salleRoutes = require("./routes/salleRoutes");
 app.use("/salle", salleRoutes);
+const userRoutes= require("./routes/userRoutes");
 
-
+app.use("/user", userRoutes);
 
 
 app.listen(PORT, () => {
