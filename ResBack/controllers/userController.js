@@ -1,8 +1,7 @@
 const user = require('../models/user');
 const mongoose = require('mongoose');
-;
-
-
+const jwt=require('jsonwebtoken');
+const bcrypt =require('bcrypt');
 
 //get all users
 const getAllUsers = async (req, res) => {
@@ -37,21 +36,55 @@ const getUserById = async (req, res) => {
 //create user
 const createUser = async (req, res) => {
     try {
-        const data = new user({
-            name: req.body.name,
-           email: req.body.email,
-           password: req.body.password,
-           profilePic: req.body.profilePic,
-           reservations: req.body.reservations
-        });
+        const { name, email, password, profilePic, reservations } = req.body;
+        const existingUser=await user.findOne({email});
+        if (existingUser) {
+            return res.status(400).json({ message: 'User with this email already exists' });
+        }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        const savedData = await data.save();
-        res.json(savedData);
+        const newUser = new user({
+            name,
+            email,
+            password: hashedPassword,
+            profilePic,
+            reservations,
+        });
+        const savedUser = await newUser.save();
+        
+        // Generate JWT
+        const token = jwt.sign({ userId: savedUser._id }, 'your_secret_key', { expiresIn: '1h' });
+        
+        res.json(savedUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+//login and generate jwt
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
+        const userlogin = await user.findOne({ email });
+        if (!userlogin) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Check password using bcrypt.compare
+        const passwordMatch = await bcrypt.compare(password, userlogin.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate JWT
+        const token = jwt.sign({ userId: userlogin._id }, 'your_secret_key', { expiresIn: '1h' });
+
+        res.json({ token, userlogin });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 
 //update user
 const updateUser = async (req, res) => {
@@ -87,6 +120,6 @@ module.exports ={
     createUser,
     getUserById,
     updateUser,
-    deleteUser
-    
+    deleteUser,
+    login
 }

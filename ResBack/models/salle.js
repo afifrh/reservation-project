@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 
 const salleSchema = new mongoose.Schema({
+  
     capacite: {
         required: true,
         type: String

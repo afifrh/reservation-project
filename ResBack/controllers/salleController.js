@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
 };
 
 const getSalleById = async (req, res) => {
-    const { id } = req.params;
+    const  id  = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({ message: 'Invalid ID format' });
     }
