@@ -1,5 +1,7 @@
 const user = require('../models/user');
 const mongoose = require('mongoose');
+;
+
 
 
 //get all users
@@ -79,10 +81,12 @@ const deleteUser = async (req, res) => {
     }
 };
 
+
 module.exports ={
     getAllUsers,
     createUser,
     getUserById,
     updateUser,
     deleteUser
+    
 }

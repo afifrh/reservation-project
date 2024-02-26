@@ -5,7 +5,7 @@ app=express();
 app.use(express.json());
 const PORT = 3000;
 require('dotenv').config();
-const mongoString='mongodb+srv://rania:rania@work.errgaiy.mongodb.net/reservation?retryWrites=true&w=majority&appName=work'
+const mongoString='mongodb+srv://afif:afif12345@afif.l0krceb.mongodb.net/reservation?retryWrites=true&w=majority&appName=afif'
 
 //db connection
 //const mongoString = process.env.DATABASE_URL;
