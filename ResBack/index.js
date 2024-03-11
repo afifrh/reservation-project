@@ -1,11 +1,11 @@
+require('dotenv').config();
 const express=require('express');
 
 const mongoose = require('mongoose');
 app=express();
 app.use(express.json());
 const PORT = 3000;
-require('dotenv').config();
-const mongoString='mongodb+srv://rania:rania@work.errgaiy.mongodb.net/reservation?retryWrites=true&w=majority&appName=work'
+const mongoString=process.env.db
 
 //db connection
 //const mongoString = process.env.DATABASE_URL;
