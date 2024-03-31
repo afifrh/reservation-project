@@ -8,5 +8,6 @@ router.get('/:id', salleController.getSalleById);
 router.post('/add', salleController.createSalle);
 router.patch('/:id', salleController.updateSalle);
 router.delete('/:id', salleController.deleteSalle);
+router.post('/:id/reserve',salleController.reserve)
 
 module.exports =router;

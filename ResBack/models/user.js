@@ -17,9 +17,7 @@ const userSchema = new mongoose.Schema({
     profilePic:{
         type: String
     },
-    reservations: {
-        type:Array
-    }
+   
 })
 
 module.exports = mongoose.model('user', userSchema)
